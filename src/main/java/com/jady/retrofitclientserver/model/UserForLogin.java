@@ -1,9 +1,12 @@
 package com.jady.retrofitclientserver.model;
 
+
+import com.jady.retrofitclientserver.JsonParse;
+
 /**
  * Created by lipingfa on 2017/6/16.
  */
-public class UserForLogin {
+public class UserForLogin extends JsonParse {
     private String name;
     private String password;
 

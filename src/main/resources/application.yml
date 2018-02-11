@@ -1,0 +1,19 @@
+# Jetty configuration
+# No single request should take longer than 15s to return a response
+
+
+jetty:
+  server:
+    port: 9010
+  threadPool:
+    minThreads: 251
+    maxThreads: 5001
+    idleTimeout: 150001
+    detailedDump: false
+  lowResources:
+    period: 10001
+    idleTimeout: 2001
+    monitorThreads: true
+    maxConnections: 10
+    maxMemory: 10
+    maxLowResourcesTime: 5000

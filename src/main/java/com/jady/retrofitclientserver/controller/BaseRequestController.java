@@ -1,5 +1,7 @@
 package com.jady.retrofitclientserver.controller;
 
+import com.jady.retrofitclientserver.exception.SysMsgEnumType;
+import com.jady.retrofitclientserver.exception.SystemLogicException;
 import com.jady.retrofitclientserver.model.DeleteBody;
 import com.jady.retrofitclientserver.model.ServerResult;
 import com.jady.retrofitclientserver.model.User;
@@ -26,7 +28,7 @@ public class BaseRequestController {
         return serverResult;
     }
 
-    @PostMapping("/user/login")
+    @RequestMapping("/user/login")
     public ServerResult login(@RequestParam String name, @RequestParam String password) {
         ServerResult serverResult = new ServerResult<String>();
         serverResult.setServer_time(System.currentTimeMillis());
@@ -41,10 +43,12 @@ public class BaseRequestController {
         return serverResult;
     }
 
-    @PostMapping(path = "/user/loginByBody")
-    public ServerResult login(@RequestBody UserForLogin userForLogin) {
+    @RequestMapping(path = "/user/login/json")
+    public ServerResult login(UserForLogin userForLogin) {
         ServerResult serverResult = new ServerResult<String>();
         serverResult.setServer_time(System.currentTimeMillis());
+        if(true)
+          throw new SystemLogicException(SysMsgEnumType.SYS_INVALID_REQUEST.setErrorMsg("APPID 为0"));
         if ("jady".equals(userForLogin.getName()) && "1234".equals(userForLogin.getPassword())) {
             serverResult.setSuccess(true);
             serverResult.setData("addafeas_cdedhyuj_daledage_leiaefss");
@@ -52,6 +56,7 @@ public class BaseRequestController {
             serverResult.setSuccess(false);
             serverResult.setErr_code("1000");
             serverResult.setMessage("用户名或密码错误");
+
         }
         return serverResult;
     }
