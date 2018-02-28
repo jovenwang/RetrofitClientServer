@@ -1,6 +1,16 @@
+subprojects
 buildscript {
 	ext {
 		springBootVersion = '1.5.4.RELEASE'
+	}
+	configurations {
+		provided
+		compile.extendsFrom provided
+		all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+		all*.exclude group: 'commons-logging', module: 'commons-logging'
+		all*.exclude group: 'log4j', module: 'log4j'
+		all*.exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+
 	}
 	repositories {
 		mavenCentral()
@@ -17,7 +27,8 @@ apply plugin: 'org.springframework.boot'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
-def MetricsVersion = '3.2.2'
+def metrics_version = '3.2.2'
+def spring_boot_version = '1.5.7.RELEASE'
 
 repositories {
 	mavenCentral()
@@ -27,18 +38,33 @@ configurations {
 	providedRuntime
 }
 
-dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-jetty')
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-starter-websocket')
+subprojects {
 
-	compile "io.dropwizard.metrics:metrics-core:${MetricsVersion}"
-	compile "io.dropwizard.metrics:metrics-graphite:${MetricsVersion}"
-	compile "io.dropwizard.metrics:metrics-jetty9:${MetricsVersion}"
-	compile "io.dropwizard.metrics:metrics-servlet:${MetricsVersion}"
-	compile "io.dropwizard.metrics:metrics-servlets:${MetricsVersion}"
-	compile "io.dropwizard.metrics:metrics-httpclient:${MetricsVersion}"
+}
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web:${spring_boot_version}")
+	compile("org.springframework.boot:spring-boot-starter-jetty:${spring_boot_version}")
+	compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
+	compile("org.springframework.boot:spring-boot-starter-websocket:${spring_boot_version}")
+	compile "org.springframework.boot:spring-boot-starter-jdbc:${spring_boot_version}"
+	compile "org.springframework.boot:spring-boot-starter-log4j2:${spring_boot_version}"
+	compile "org.springframework.boot:spring-boot-starter-logging:${spring_boot_version}"
+
+	compile "org.springframework.boot:spring-boot-maven-plugin:${spring_boot_version}"
+	compile "org.springframework.boot:spring-boot-devtools:${spring_boot_version}"
+
+
+	compile 'com.alibaba:druid-spring-boot-starter:1.1.6'
+
+
+	compile "io.dropwizard.metrics:metrics-core:${metrics_version}"
+	compile "io.dropwizard.metrics:metrics-graphite:${metrics_version}"
+	compile "io.dropwizard.metrics:metrics-jetty9:${metrics_version}"
+	compile "io.dropwizard.metrics:metrics-servlet:${metrics_version}"
+	compile "io.dropwizard.metrics:metrics-servlets:${metrics_version}"
+	compile "io.dropwizard.metrics:metrics-httpclient:${metrics_version}"
+
+
 
 	compile('com.google.code.gson:gson:2.6.2')
 	compile 'com.google.guava:guava:18.0'
@@ -51,13 +77,12 @@ dependencies {
 	compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
 	compile 'io.protostuff:protostuff-core:1.4.0'
 	compile 'io.protostuff:protostuff-runtime:1.4.0'
-	compile 'io.netty:netty:3.9.9.Final'
 	compile 'io.netty:netty-all:4.1.6.Final'
 	compile 'com.google.guava:guava:18.0'
 	compile 'com.googlecode.json-simple:json-simple:1.1.1'
 	compile 'net.sf.ezmorph:ezmorph:1.0.6'
 	compile 'commons-codec:commons-codec:1.10'
-	compile 'com.alibaba:druid:1.0.18'
+	//compile 'com.alibaba:druid:1.0.18'
 	compile 'commons-io:commons-io:2.5'
 	compile 'org.apache.commons:commons-lang3:3.2'
 	compile 'org.apache.httpcomponents:httpclient:4.5.3'
@@ -68,9 +93,9 @@ dependencies {
 
 	compile 'org.freemarker:freemarker:2.3.16'
 	compile 'org.scala-lang:scala-library:2.9.2'
-	compile 'org.databene:feed4junit:1.2.0'
-	compile 'org.databene:databene-commons:0.5.16'
-	compile 'org.databene:databene-benerator:0.7.7'
+//	compile 'org.databene:feed4junit:1.2.0'
+//	compile 'org.databene:databene-commons:0.5.16'
+//	compile 'org.databene:databene-benerator:0.7.7'
 	compile 'org.mockito:mockito-all:1.9.5'
 	compile 'commons-beanutils:commons-beanutils:1.9.3'
 	compile 'org.aspectj:aspectjrt:1.8.3'
@@ -87,6 +112,13 @@ dependencies {
 	compile 'com.baomidou:mybatis-plus:2.1.0'
 	compile 'com.github.pagehelper:pagehelper:5.1.2'
 	compile 'org.javassist:javassist:3.18.0-GA'
+
+	compile 'ch.qos.logback:logback-classic:1.1.4'
+	compile 'ch.qos.logback:logback-core:1.1.4'
+	compile 'org.slf4j:slf4j-api:1.7.15'
+	compile 'org.slf4j:slf4j-log4j12:1.7.15'
+	compile 'org.slf4j:slf4j-ext:1.7.15'
+	compile 'org.slf4j:jcl-over-slf4j:1.7.15'
 
 
 	providedRuntime('org.springframework.boot:spring-boot-starter-jetty')
